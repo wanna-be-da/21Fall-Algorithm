@@ -151,5 +151,5 @@ public class Sorting {
         return i+1;
     }
 
-    public static void heap_sort(int[] A)
+    //public static void heap_sort(int[] A)
 }
