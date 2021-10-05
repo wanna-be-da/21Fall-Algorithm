@@ -8,8 +8,9 @@ public class Sorting {
         //int[] sorted_arr = bubble_sort(arr, arr.length);
         //int[] sorted_arr = shell_sort(arr, arr.length);
         //merge_sort(arr,0, arr.length-1);
-        quick_sort(arr, 0, arr.length-1);
-        System.out.println(Arrays.toString(arr));
+        //quick_sort(arr, 0, arr.length-1);
+        System.out.println((1-1)/2);
+        System.out.println(Arrays.toString(heap_sort(arr, arr.length-1)));
     }
 
     public static int[] selection_sort(int[] A, int n){
@@ -151,5 +152,48 @@ public class Sorting {
         return i+1;
     }
 
-    //public static void heap_sort(int[] A)
+    public static int[] heap_sort(int[] A, int n){
+        buildheap(A, n);
+        for (int i = n; i>=0; i--){
+            deletemax(A, i);
+        }
+        return A;
+    }
+
+    private static void buildheap(int[] A, int n){
+        for (int i = n; i>=1; i--){
+            if (A[i] > A[(i-1)/2]){
+                swap(A, i, (i-1)/2);
+            }
+        }
+    }
+
+    private static void deletemax(int[] A, int n){
+        swap(A, 0, n);
+        percolateDown(A, n); //correct heap
+    }
+
+    private static void percolateDown(int[] A, int n){
+        int i = 0;
+        while (2*i +2 <= n-1){
+            if (A[i]<A[2*i+1]){
+                swap(A,i,2*i+1);
+                i = 2*i +1;
+                continue;
+            }
+            else if (A[i]<A[2*i+2]){
+                swap(A,i,2*i+2);
+                i = 2*i+2;
+            }
+            else{
+                break;
+            }
+        }
+    }
+
+    private static void swap(int[] A, int m, int n){
+        int temp = A[m];
+        A[m] = A[n];
+        A[n] = temp;
+    }
 }
