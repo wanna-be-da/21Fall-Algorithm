@@ -3,7 +3,8 @@
 public class DynamicProgramming {
     public static void main(String[] args){
         int[][] matrix = {{6,7,12,5},{5,3,11,18},{7,17,3,3},{8,10,14,9}};
-        System.out.println(matrixPath(matrix, 1, 3));
+        int[][] weight = {{6,7,12,-5,5,3,11,3},{-8,10,14,9,7,13,8,5},{11,12,7,4,8,-2,9,4}};
+        System.out.println(pebbleSum(weight, 4));
     }
 
     public static int matrixPath(int[][] matrix, int i, int j){
@@ -24,11 +25,41 @@ public class DynamicProgramming {
         return c[i][j];
     }
 
-    private static int max(int i, int j) {
-        if(i>j){
-            return i;
-        } else {
-            return j;
+    private static int pebble(int[][] w, int i, int p){
+        int[][] c = new int[w[0].length][4];
+        //put c[0][0] ... c[0][3], pattern 0,1,2,3
+        c[0][0] = w[0][0];
+        c[0][1] = w[0][1];
+        c[0][2] = w[0][2];
+        c[0][3] = w[0][0] + w[0][3];
+
+        //put things
+        for (int m = 1; m<=w.length; m++){
+            int [] prev_arr = {c[m-1][0], c[m-1][1], c[m-1][2], c[m-1][3]};
+            int prev_max = max(prev_arr);
+            c[m][0] = w[m][0] + prev_max;
+            c[m][1] = w[m][1] + prev_max;
+            c[m][2] = w[m][2] + prev_max;
+            c[m][3] = w[m][0] + w[m][3] + prev_max;
         }
+
+        return c[i-1][p-1];
     }
+
+    public static int pebbleSum(int[][] w, int n){
+        int [] pebbles = {pebble(w, n, 1), pebble(w, n, 2), pebble(w, n, 3), pebble(w, n, 4)};
+        return max(pebbles);
+    }
+
+    private static int max(int[] arr) {
+        int result = arr[0];
+        for (int i=1;i<arr.length;i++){
+            if(arr[i]>result){
+                result = arr[i];
+            }
+        }
+        return result;
+    }
+
+
 }
